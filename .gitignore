@@ -21,3 +21,4 @@ local.properties
 .settings/
 .loadpath
 /src/main/resources/rebel.xml
+doc/
