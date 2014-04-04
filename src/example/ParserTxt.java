@@ -13,7 +13,7 @@ public class ParserTxt {
 
 		int minGram = 1;
 		int maxGram = 3;
-		Reader reader = new StringReader("¤¤¤åºû°ò¦Ê¬ì±N¦Û¤v©w¦ì¬°¤@­Ó¥]§t¤HÃş©Ò¦³ª¾ÃÑ»â°ìªº¦Ê¬ì¥ş®Ñ¡A¦Ó¤£¬O¤@¥»¦r¨å¡Bµü¨å¡B½×¾Â©Î¥ô¦ó¨ä¥L©Ê½èªººô¯¸");
+		Reader reader = new StringReader("ä¸­æ–‡ç¶­åŸºç™¾ç§‘å°‡è‡ªå·±å®šä½ç‚ºä¸€å€‹åŒ…å«äººé¡æ‰€æœ‰çŸ¥è­˜é ˜åŸŸçš„ç™¾ç§‘å…¨æ›¸ï¼Œè€Œä¸æ˜¯ä¸€æœ¬å­—å…¸ã€è©å…¸ã€è«–å£‡æˆ–ä»»ä½•å…¶ä»–æ€§è³ªçš„ç¶²ç«™");
 		NGramTokenizer gramTokenizer = new NGramTokenizer(Version.LUCENE_46,
 	              reader, minGram, maxGram);
 		gramTokenizer.reset();
