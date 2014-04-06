@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
@@ -19,6 +20,11 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.search.highlight.TextFragment;
+import org.apache.lucene.search.highlight.TokenSources;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
@@ -39,7 +45,7 @@ public class IndexDoc {
 			Metadata metadata = new Metadata();
 			PDFParser pdfparser = new PDFParser();
 			pdfparser.parse(is, contenthandler, metadata, new ParseContext());
-			System.out.println(contenthandler.toString());
+			//System.out.println(contenthandler.toString());
 			
 			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46);
 			Directory directory = new RAMDirectory();
@@ -57,11 +63,28 @@ public class IndexDoc {
             IndexSearcher searcher = new IndexSearcher(reader);
             Query query = new TermQuery(new Term("content", "wiki")) ;   
             TopDocs topDocs = searcher.search(query, 10) ;  
+            
+            
+            
             ScoreDoc[] scores = topDocs.scoreDocs ;  
             int length = scores.length ; 
-            System.out.println("length:"+length);
+            int id = scores[0].doc;
+            //System.out.println("length:"+length);
             Document result = searcher.doc(scores[0].doc) ;
-            System.out.println("result:"+result.get("content"));
+            //System.out.println("result:"+result.get("content"));
+            
+            
+            // test hightlight function 
+            String text = doc.get("content");
+            SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter();
+            Highlighter highlighter = new Highlighter(htmlFormatter, new QueryScorer(query));
+            TokenStream tokenStream = TokenSources.getAnyTokenStream(searcher.getIndexReader(), id, "content", analyzer);
+            TextFragment[] frag = highlighter.getBestTextFragments(tokenStream, text, false, 4);
+            for (int j = 0; j < frag.length; j++) {
+                if ((frag[j] != null) && (frag[j].getScore() > 0)) {
+                    System.out.println((frag[j].toString()));
+                }
+            }
             
 		} catch (Exception e) {
 			e.printStackTrace();

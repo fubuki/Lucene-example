@@ -40,16 +40,7 @@ public class FieldIndex {
 		System.out.println("price:"+doc.get("price"));
 		doc.add(new Field("author", "Arthur C. Clark", Field.Store.YES, Field.Index.NOT_ANALYZED)); 
 		System.out.println("author:"+doc.get("author"));
-		
-		String lowerDomain = getSenderDomain().toLowerCase();
-		
-		if (isImportant(lowerDomain)) { 
-			doc.setBoost(1.5F); //1 
-		} else if (isUnimportant(lowerDomain)) { 
-			doc.setBoost(0.1F); //2 
-		} 
-
-		
+				
 		writer.addDocument(doc);
 		
 	}
