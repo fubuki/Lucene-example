@@ -22,3 +22,4 @@ local.properties
 .loadpath
 /src/main/resources/rebel.xml
 doc/
+spell/
