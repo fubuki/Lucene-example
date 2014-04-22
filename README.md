@@ -13,3 +13,4 @@ Lucene
 8. loadPdf 使用tika載入PDF
 9. ParserTxt 
 10. SpellCheck 測試Lucene的拼字檢查功能，給lucene一個詞表，可以給你與你輸入的的字串最接近的詞彙。
+11. TikaLoadFile 測試tika載入ms-doc 和tike語言偵測功能。
