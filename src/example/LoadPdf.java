@@ -16,7 +16,7 @@ public class LoadPdf {
 
 		InputStream is = null;
 		try {
-			is = new FileInputStream("doc/esslli07_slides01.pdf");
+			is = new FileInputStream("doc/index.pdf");
 			ContentHandler contenthandler = new BodyContentHandler();
 			Metadata metadata = new Metadata();
 			PDFParser pdfparser = new PDFParser();

@@ -25,12 +25,12 @@ public class HelloLucene {
   public static void main(String[] args) throws IOException, ParseException {
     // 0. Specify the analyzer for tokenizing text.
     //    The same analyzer should be used for indexing and searching
-    StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_CURRENT);
+    StandardAnalyzer analyzer = new StandardAnalyzer();
 
     // 1. create the index
     Directory index = new RAMDirectory();
 
-    IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_40, analyzer);
+    IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
     IndexWriter w = new IndexWriter(index, config);
     addDoc(w, "Lucene in Action", "193398817");
@@ -44,13 +44,13 @@ public class HelloLucene {
 
     // the "title" arg specifies the default field to use
     // when no field is explicitly specified in the query.
-    Query q = new QueryParser(Version.LUCENE_40, "title", analyzer).parse(querystr);
+    Query q = new QueryParser("title", analyzer).parse(querystr);
 
     // 3. search
     int hitsPerPage = 10;
     IndexReader reader = DirectoryReader.open(index);
     IndexSearcher searcher = new IndexSearcher(reader);
-    TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, true);
+    TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
     searcher.search(q, collector);
     ScoreDoc[] hits = collector.topDocs().scoreDocs;
     

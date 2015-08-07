@@ -17,10 +17,10 @@ public class IKanalyzer {
 	public static void main(String[] args) throws IOException, ParseException {
 
 
-		Reader reader = new StringReader("¤¤¤åºû°ò¦Ê¬ì±N¦Û¤v©w¦ì¬°¤@­Ó¥]§t¤HÃş©Ò¦³ª¾ÃÑ»â°ìªº¦Ê¬ì¥ş®Ñ¡A¦Ó¤£¬O¤@¥»¦r¨å¡Bµü¨å¡B½×¾Â©Î¥ô¦ó¨ä¥L©Ê½èªººô¯¸");
+		Reader reader = new StringReader("ä¸­æ–‡ç¶­åŸºç™¾ç§‘å°‡è‡ªå·±å®šä½ç‚ºä¸€å€‹åŒ…å«äººé¡æ‰€æœ‰çŸ¥è­˜é ˜åŸŸçš„ç™¾ç§‘å…¨æ›¸ï¼Œè€Œä¸æ˜¯ä¸€æœ¬å­—å…¸ã€è©å…¸ã€è«–å£‡æˆ–ä»»ä½•å…¶ä»–æ€§è³ªçš„ç¶²ç«™");
 			
         Analyzer a = new IKAnalyzer();      
-        
+       
         TokenStream ts = a.tokenStream("", reader);   
         OffsetAttribute offsetAttribute = ts.getAttribute(OffsetAttribute.class);  
         CharTermAttribute termAttribute = ts.getAttribute(CharTermAttribute.class);           
@@ -31,9 +31,9 @@ public class IKanalyzer {
             int endOffset = offsetAttribute.endOffset();  
             String term = termAttribute.toString();  
             n++;   
-            System.out.println("Token("+n+") ªº¤º®e¬°¡G"+term);   
+            System.out.println("Token("+n+") çš„å…§å®¹ç‚ºï¼š"+term);   
         }   
-        System.out.println("==¦@¦³µü±ø"+n+"±ø=="); 
+        System.out.println("==å…±æœ‰è©æ¢"+n+"æ¢=="); 
         
         ts.end();
         ts.close();

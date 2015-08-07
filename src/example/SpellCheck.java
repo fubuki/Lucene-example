@@ -1,7 +1,7 @@
 package example;
 
 import java.io.IOException;
-import java.io.File;
+import java.nio.file.Paths;
 
 import org.apache.lucene.search.spell.PlainTextDictionary;
 import org.apache.lucene.search.spell.SpellChecker;
@@ -9,7 +9,6 @@ import org.apache.lucene.search.spell.JaroWinklerDistance;
 import org.apache.lucene.search.spell.LevensteinDistance;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.util.Version;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -17,23 +16,20 @@ import org.apache.lucene.index.IndexWriterConfig;
 public class SpellCheck {
 	public static void main(String[] args) throws IOException {
 		
-
-
 	      String spellCheckDir = "spell";
 	      String spellCheckDic = "doc/dic.txt";
 	      String wordToRespell = "wi";
 	      
-	      //¥ı«Ø¥ßspellcheckÁY»İ­nªº¯Á¤Ş
-	      //¦b³o¸Ì·|¥ı§â»·­ì©lªº¦r¨åÀÉÂà¦¨¯Á¤Ş
-	      Directory spellIndexDir = FSDirectory.open(new File(spellCheckDir));
+	      //å…ˆå»ºç«‹spellcheckç¸®éœ€è¦çš„ç´¢å¼•
+	      //åœ¨é€™è£¡æœƒå…ˆæŠŠé åŸå§‹çš„å­—å…¸æª”è½‰æˆç´¢å¼•
+
+	      Directory spellIndexDir = FSDirectory.open(Paths.get(spellCheckDir));
 	      SpellChecker spellChecker = new SpellChecker(spellIndexDir);
-	      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_46,
-	              null);
-	      spellChecker.indexDictionary(new PlainTextDictionary(new File(
-	    		  spellCheckDic)), config, false);
+	      IndexWriterConfig config = new IndexWriterConfig(null);
+	      spellChecker.indexDictionary(new PlainTextDictionary(Paths.get(spellCheckDic)), config, false);
 	      
 	      
-	      //§Q¥Î«e­±¨ú±oªº¥Ø¿ı§@«÷¼gÀË¬d
+	      //åˆ©ç”¨å‰é¢å–å¾—çš„ç›®éŒ„ä½œæ‹¼å¯«æª¢æŸ¥
 	      spellChecker.setStringDistance(new LevensteinDistance());
 	      String[] suggestions = spellChecker.suggestSimilar(wordToRespell, 5); //#C
 	      System.out.println(suggestions.length + " suggestions for '" + wordToRespell + "':");

@@ -12,6 +12,7 @@ import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.Term;
@@ -27,7 +28,6 @@ import org.apache.lucene.search.highlight.TextFragment;
 import org.apache.lucene.search.highlight.TokenSources;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
@@ -40,20 +40,20 @@ public class IndexDoc {
 
 		InputStream is = null;
 		try {
-			is = new FileInputStream("doc/esslli07_slides01.pdf");
-			ContentHandler contenthandler = new BodyContentHandler();
+			is = new FileInputStream("doc/index.pdf");
+			ContentHandler contenthandler = new BodyContentHandler(10*1024*1024);
 			Metadata metadata = new Metadata();
 			PDFParser pdfparser = new PDFParser();
 			pdfparser.parse(is, contenthandler, metadata, new ParseContext());
 			//System.out.println(contenthandler.toString());
 			
-			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46);
+			Analyzer analyzer = new StandardAnalyzer();
 			Directory directory = new RAMDirectory();
-			IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(Version.LUCENE_46, analyzer)) ;  
+			IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer)) ;  
 			Document doc = new Document();
 			doc.add(new TextField("content", contenthandler.toString(), Store.YES)) ; 
             FieldType type = new FieldType() ;  
-            type.setIndexed(true) ;  
+            type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
             type.setStored(true) ;
             
             writer.addDocument(doc);
@@ -78,7 +78,8 @@ public class IndexDoc {
             String text = doc.get("content");
             SimpleHTMLFormatter htmlFormatter = new SimpleHTMLFormatter();
             Highlighter highlighter = new Highlighter(htmlFormatter, new QueryScorer(query));
-            TokenStream tokenStream = TokenSources.getAnyTokenStream(searcher.getIndexReader(), id, "content", analyzer);
+            
+			TokenStream tokenStream = TokenSources.getAnyTokenStream(searcher.getIndexReader(), id, "content", analyzer);
             TextFragment[] frag = highlighter.getBestTextFragments(tokenStream, text, false, 4);
             for (int j = 0; j < frag.length; j++) {
                 if ((frag[j] != null) && (frag[j].getScore() > 0)) {

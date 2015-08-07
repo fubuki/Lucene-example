@@ -8,13 +8,11 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StoredField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
-
-
 
 
 public class FieldIndex {
@@ -22,14 +20,16 @@ public class FieldIndex {
 		
 		Directory directory = new RAMDirectory();
 		Document doc = new Document(); 
-		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46);
-		IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(Version.LUCENE_46, analyzer)) ; 
+		Analyzer analyzer = new StandardAnalyzer();
+		IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer)) ; 
 		//DateTools
 		//Indexing dates & times
-		doc.add(new Field("Date", 
-				DateTools.dateToString(new Date(), DateTools.Resolution.DAY),
-				Field.Store.YES, 
-				Field.Index.NOT_ANALYZED)); 
+		
+		
+		// 5.2 使用StoredField TextField 其他種類的 Field 的類型
+		doc.add(new StoredField("Date", 
+				DateTools.dateToString(new Date(), DateTools.Resolution.DAY)
+				)); 
 		
 		System.out.println("Date:"+doc.get("Date"));
 		

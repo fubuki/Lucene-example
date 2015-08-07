@@ -9,13 +9,12 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.util.Version;
 
 public class SmartChineseAnalysis {
 	public static void main(String[] args) throws IOException, ParseException {
 
-		Analyzer analyzer = new SmartChineseAnalyzer(Version.LUCENE_46,true);
-		String str = "¤¤¤åºû°ò¦Ê¬ì±N¦Û¤v©w¦ì¬°¤@­Ó¥]§t¤HÃş©Ò¦³ª¾ÃÑ»â°ìªº¦Ê¬ì¥ş®Ñ¡A¦Ó¤£¬O¤@¥»¦r¨å¡Bµü¨å¡B½×¾Â©Î¥ô¦ó¨ä¥L©Ê½èªººô¯¸";
+		Analyzer analyzer = new SmartChineseAnalyzer(true);
+		String str = "ä¸­æ–‡ç¶­åŸºç™¾ç§‘å°‡è‡ªå·±å®šä½ç‚ºä¸€å€‹åŒ…å«äººé¡æ‰€æœ‰çŸ¥è­˜é ˜åŸŸçš„ç™¾ç§‘å…¨æ›¸ï¼Œè€Œä¸æ˜¯ä¸€æœ¬å­—å…¸ã€è©å…¸ã€è«–å£‡æˆ–ä»»ä½•å…¶ä»–æ€§è³ªçš„ç¶²ç«™";
 		List<String> result = new ArrayList<String>();
 		try{
 			 TokenStream tokenStream = analyzer.tokenStream("field", str);    
@@ -31,5 +30,7 @@ public class SmartChineseAnalysis {
 		 }
 		
 		System.out.println(result);
+	
+		analyzer.close();
 	}
 }

@@ -29,9 +29,9 @@ import org.apache.lucene.util.Version;
 public class DocBoost {
 	public static void main(String[] args) throws IOException {
 		// add two documents to the index
-		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_46);
+		Analyzer analyzer = new StandardAnalyzer();
 		Directory directory = new RAMDirectory();
-		IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(Version.LUCENE_46, analyzer)) ;  
+		IndexWriter writer = new IndexWriter(directory, new IndexWriterConfig(analyzer)) ;  
 		
 		Document doc = new Document();
 		doc.add(new TextField("f", "test document1", Store.YES));
