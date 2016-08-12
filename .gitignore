@@ -23,3 +23,9 @@ local.properties
 /src/main/resources/rebel.xml
 doc/
 spell/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
