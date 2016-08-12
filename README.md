@@ -1,7 +1,7 @@
 Lucene
 ======
 
-練習Lucene的切詞，基於Lucene 4.6下測試的範例，Lucene從3升級到4有不少改變之處需要多加注意。
+練習Lucene的切詞，基於Lucene 6.1 下測試的範例。
 
 1. Cjktokenizer  測試lucene本身對CJK(中文日文韓文)下的預設切詞方式。
 2. CommonAnalyzersDemo 列出lucene一些內建分詞方式。
