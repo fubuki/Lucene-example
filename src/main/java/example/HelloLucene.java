@@ -17,7 +17,6 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
-import org.apache.lucene.util.Version;
 
 import java.io.IOException;
 
@@ -53,10 +52,10 @@ public class HelloLucene {
     TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage);
     searcher.search(q, collector);
     ScoreDoc[] hits = collector.topDocs().scoreDocs;
-    
+
     // 4. display results
     System.out.println("Found " + hits.length + " hits.");
-    for(int i=0;i<hits.length;++i) {
+    for (int i = 0; i < hits.length; ++i) {
       int docId = hits[i].doc;
       Document d = searcher.doc(docId);
       System.out.println((i + 1) + ". " + d.get("isbn") + "\t" + d.get("title"));
