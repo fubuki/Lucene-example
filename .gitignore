@@ -23,6 +23,7 @@ local.properties
 /src/main/resources/rebel.xml
 doc/
 spell/
+target
 
 # Intellij
 .idea/
